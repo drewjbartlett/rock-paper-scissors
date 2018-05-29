@@ -1,6 +1,7 @@
+require_relative 'game_result'
 class Game
 
-  attr_reader :started
+  attr_reader :started, :result
 
   def start
     @started = true
@@ -23,31 +24,38 @@ class Game
 
     return nil unless (left && right)
 
-    game_result = ""
-
     finish
 
-    if (left == right)
-      game_result = "Tie game. Try again!"
-
+    if is_tie(left, right)
+      @result = "Tie game. Try again!"
       start
-    elsif (left == :rock && right == :scissors)
-      game_result = "Rock beats scissors!"
-    elsif (left == :scissors && right == :rock)
-      game_result = "Rock beats scissors!"
-    elsif (left == :paper && right == :rock)
-      game_result = "Paper beats rock!"
-    elsif (left == :rock && right == :paper)
-      game_result = "Paper beats rock!"
-    elsif (left == :scissors && right == :paper)
-      game_result = "Scissors vs paper!"
-    elsif (left == :paper && right == :scissors)
-      game_result = "Scissors vs paper!"
+    elsif is_rock_vs_scissors(left, right)
+      @result = "Rock beats scissors!"
+    elsif is_paper_vs_rock(left, right)
+      @result = "Paper beats rock!"
+    elsif is_scissors_vs_paper(left, right)
+      @result = "Scissors vs paper!"
     else
-      game_result = :UNKNOWN
+      @result = :UNKNOWN
     end
 
-    game_result
+    @result
+  end
+
+  def is_tie(left, right)
+    left == right
+  end
+
+  def is_rock_vs_scissors(left, right)
+    (left == :rock && right == :scissors) || (left == :scissors && right == :rock)
+  end
+
+  def is_paper_vs_rock(left, right)
+    (left == :paper && right == :rock) || (left == :rock && right == :paper)
+  end
+
+  def is_scissors_vs_paper(left, right)
+    (left == :scissors && right == :paper) || (left == :paper && right == :scissors)
   end
 
 end

@@ -56,7 +56,8 @@ describe 'A game of rock paper scissors' do
         expect(started_game.play(:rock, :scissors)).to eq("Rock beats scissors!")
 
         game.start
-        expect(game.play(:scissors, :rock)).to eq("Rock beats scissors!")
+        game.play(:scissors, :rock)
+        expect(game.result).to eq("Rock beats scissors!")
       end
 
       it 'will mark the game as finished' do
@@ -68,10 +69,13 @@ describe 'A game of rock paper scissors' do
 
     context 'rock vs paper' do
       it 'announces the correct winner' do
-        expect(started_game.play(:paper, :rock)).to eq("Paper beats rock!")
+        started_game.play(:paper, :rock)
+        
+        expect(started_game.result).to eq("Paper beats rock!")
         
         game.start
-        expect(game.play(:rock, :paper)).to eq("Paper beats rock!")
+        game.play(:rock, :paper)
+        expect(game.result).to eq("Paper beats rock!")
       end
 
       it 'will mark the game as finished' do
@@ -83,10 +87,13 @@ describe 'A game of rock paper scissors' do
 
     context 'scissors vs paper' do
       it 'announces the correct winner' do
-        expect(started_game.play(:scissors, :paper)).to eq("Scissors vs paper!")
+        started_game.play(:scissors, :paper)
+        expect(started_game.result).to eq("Scissors vs paper!")
 
         game.start
-        expect(game.play(:paper, :scissors)).to eq("Scissors vs paper!")
+        game.play(:paper, :scissors)
+
+        expect(game.result).to eq("Scissors vs paper!")
       end
 
       it 'will mark the game as finished' do
@@ -98,9 +105,16 @@ describe 'A game of rock paper scissors' do
 
     context 'a tie game' do
       it 'announces the correct winner' do
-        expect(started_game.play(:rock, :rock)).to eq("Tie game. Try again!")
-        expect(started_game.play(:paper, :paper)).to eq("Tie game. Try again!")
-        expect(started_game.play(:scissors, :scissors)).to eq("Tie game. Try again!")
+        started_game.play(:rock, :rock)
+
+        expect(started_game.result).to eq("Tie game. Try again!")
+
+        started_game.play(:paper, :paper)
+
+        expect(started_game.result).to eq("Tie game. Try again!")
+
+        started_game.play(:scissors, :scissors)
+        expect(started_game.result).to eq("Tie game. Try again!")
       end
 
       it 'will mark the game as finished' do
